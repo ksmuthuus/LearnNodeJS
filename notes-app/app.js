@@ -1,3 +1,6 @@
-const fs = require('fs');
+const chalk = require('chalk')
 
-fs.appendFileSync('notes.txt', '\nthis is third line');
+const log = console.log
+
+const success = chalk.bold.green.inverse
+log(success('Success!'))
