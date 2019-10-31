@@ -2,12 +2,12 @@ const geocode = require('./utils/geocode')
 const weather = require('./utils/weather')
 const address = process.argv[2]
 
-geocode(address, (error, data) => {
+geocode(address, (error, geodata) => {
     if (error) {
         return console.log('Error', error)
     }
 
-    weather(data, (error, response) => {
+    weather(geodata, (error, response) => {
         if (error) {
             return console.log('Error', error)
         }
