@@ -44,6 +44,22 @@ app.get('/weather', (req, res) => {
     res.send({ location: 'Madurai', forecast: { temp: '12' } })
 })
 
+app.get('/help/*', (req, res) => {
+    res.render('error', {
+        title: 'Error 404',
+        message: 'Help content not available!',
+        author: 'Muthu'
+    })
+})
+
+app.get('*', (req, res) => {
+    res.render('error', {
+        title: 'Error 404',
+        message: 'Page not found',
+        author: 'Muthu'
+    })
+})
+
 app.listen(3000, () => {
     console.log('Listening on port 3000')
 })
