@@ -1,8 +1,12 @@
 const request = require('request')
 
+const accessToken = ''
 const weather = (geodata, callback) => {
-    const url = 'https://api.darksky.net/forecast/1a32e4a7b57fc861b97bccf594a6ef15/' + geodata.lat + ',' + geodata.lang
-    request({ uri: url, json: true }, (error, response) => {
+    const url = `https://api.darksky.net/forecast/${accessToken}/${geodata.lat},${geodata.lang}`
+    request({
+        uri: url,
+        json: true
+    }, (error, response) => {
         if (error) {
             callback('Unable to connect to source service!', undefined)
         } else if (response.error) {
