@@ -1,10 +1,21 @@
 const express = require('express')
 const Joi = require('joi')
+const logger = require('./logger')
+const path = require('path')
+const helmet = require('helmet')
+const morgan = require('morgan')
 
 const app = express()
+const staticFilePath = path.join(__dirname, '../public')
 
+app.use(helmet())
+
+if (app.get('env') !== 'production')
+    app.use(morgan('tiny'))
 //JSON Parser Middleware
 app.use(express.json()) //Sets req.body
+//app.use(logger) //Custom Middleware
+app.use(express.static(staticFilePath))
 
 const genres = [{
     id: 1,
