@@ -3,8 +3,8 @@ const Joi = require('joi')
 
 const app = express()
 
-//JSON Middleware
-app.use(express.json())
+//JSON Parser Middleware
+app.use(express.json()) //Sets req.body
 
 const genres = [{
     id: 1,
