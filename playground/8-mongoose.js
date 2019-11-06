@@ -12,30 +12,62 @@ mongoose.connect(url, {
     })
 
 const courseSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 25,
+        //match: /pattern/
+    },
+    category: {
+        type: String,
+        required: true,
+        enum: ['app', 'web']
+    },
     tutor: String,
-    tags: [String],
+    tags: {
+        type: Array,
+        validate: {
+            validator: function (v) {
+                return v && v.length > 0
+            },
+            message: 'Tag should have atleast one value'
+        }
+    },
     date: {
         type: Date,
         default: Date.now
     },
-    isPublished: Boolean
+    isPublished: Boolean,
+    price: {
+        type: Number,
+        required: function () {
+            return this.isPublished
+        }
+    }
 })
 
 const Course = mongoose.model('Course', courseSchema)
 
 async function createDocument() {
     const course = new Course({
-        name: 'Angular',
+        //name: 'Angular',
+        //category: 'app',
         tutor: 'Mosh',
-        tags: ['angular', 'frontend'],
-        isPublished: true
+        //tags: ['angular', 'frontend'],
+        isPublished: true,
+        //price: 10
     })
 
-    await course.save()
+    try {
+        await course.save()
+    } catch (err) {
+        for (filed in err.errors)
+            console.log(err.errors[filed].message)
+    }
 }
 
-//createDocument()
+createDocument()
 
 async function queryDocument() {
     const courses = await Course.find()
@@ -60,4 +92,4 @@ async function queryDocumentFilter() {
     console.log(courses)
 }
 
-queryDocumentFilter()
+//queryDocumentFilter()
