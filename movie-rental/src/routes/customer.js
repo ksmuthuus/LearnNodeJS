@@ -1,40 +1,40 @@
 const express = require('express')
 const {
+    Customer,
+    validate
+} = require('../models/customer')
+const {
     returnError
 } = require('../common/error')
-const {
-    Genre,
-    validate
-} = require('../models/genre')
 
 const router = express.Router()
 
 //GET All Generas
 
 router.get('/', async (req, res) => {
-    let genres = undefined
+    let customers = undefined
     try {
-        genres = await Genre.find().sort('name')
+        customers = await Customer.find().sort('name')
     } catch (err) {
         returnError(res, 400, 'StorageException', err.message)
     }
 
-    res.status(200).send(genres)
+    res.status(200).send(customers)
 })
 
 //GET specific Generas
 router.get('/:id', async (req, res) => {
-    let genre = undefined
+    let customer = undefined
     try {
-        genre = await Genre.findById(req.params.id)
+        customer = await Customer.findById(req.params.id)
     } catch (err) {
         returnError(res, 400, 'StorageException', err.message)
     }
 
-    if (!genre) {
+    if (!customer) {
         returnError(res, 400, 'DataException', 'Genre Not Available')
     }
-    res.status(200).send(genre)
+    res.status(200).send(customer)
 })
 
 //POST Genres
@@ -46,18 +46,20 @@ router.post('/', async (req, res) => {
     }
 
     //Insert Genre
-    const genre = new Genre({
-        name: req.body.name
+    const customer = new Customer({
+        name: req.body.name,
+        phone: req.body.phone,
+        isGold: req.body.isGold
     })
 
-    let addedGenre = undefined
+    let addedCustomer = undefined
     try {
-        addedGenre = await genre.save()
+        addedCustomer = await customer.save()
     } catch (err) {
         returnError(res, 400, 'StorageException', err.message)
     }
 
-    res.status(201).send(addedGenre)
+    res.status(201).send(addedCustomer)
 })
 
 //PUT Genres
@@ -68,9 +70,10 @@ router.put('/:id', async (req, res) => {
         returnError(res, 400, 'ValidationException', validated.error.details[0].message) //TO DO enumerate details
     }
 
-    let resultGenre = undefined
+
+    let resultCustomer = undefined
     try {
-        resultGenre = await Genre.findByIdAndUpdate(req.params.id, {
+        resultCustomer = await Customer.findByIdAndUpdate(req.params.id, {
             name: req.body.name
         }, {
             new: true
@@ -78,30 +81,28 @@ router.put('/:id', async (req, res) => {
     } catch (err) {
         returnError(res, 400, 'StorageException', err.message)
     }
-    if (!resultGenre)
-        returnError(res, 404, 'DataException', 'Genre Not Found')
+    if (!resultCustomer)
+        returnError(res, 404, 'DataException', 'Customer Not Found')
 
-    //Update Genre
-    res.status(200).send(resultGenre)
+    //Update Customer
+    res.status(200).send(resultCustomer)
 })
 
 //DELETE Generes
 router.delete('/:id', async (req, res) => {
-    var resultGenre = undefined
+    var resultCustomer = undefined
     try {
-        resultGenre = await Genre.findByIdAndRemove(req.params.id)
+        resultCustomer = await Customer.findByIdAndRemove(req.params.id)
 
     } catch (err) {
         returnError(res, 400, 'StorageException', err.message)
     }
 
-    if (!resultGenre) returnError(res, 404, 'DataException', 'Genre Not Found')
+    if (!resultCustomer) returnError(res, 404, 'DataException', 'Customer Not Found')
 
     //Remove genre
-    res.status(200).send(resultGenre)
+    res.status(200).send(resultCustomer)
 
 })
-
-
 
 module.exports = router

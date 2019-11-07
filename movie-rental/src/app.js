@@ -3,11 +3,28 @@ const path = require('path')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const config = require('config')
+const mongoose = require('mongoose')
 const logger = require('./middlewares/logger')
-const router = require('./routes/genre.js')
+const genreRouter = require('./routes/genre')
+const customerRouter = require('./routes/customer')
+const defaultRouter = require('./routes/default')
 
 const app = express()
 const staticFilePath = path.join(__dirname, '../public')
+
+const url = 'mongodb://localhost:27017/MovieRental'
+mongoose.connect(url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => {
+        console.log('MongoDB Connection Success!')
+    })
+    .catch(err => {
+        console.log('Error: ', err)
+    })
+
+
 
 app.use(helmet())
 
@@ -17,14 +34,9 @@ if (app.get('env') !== 'production')
 app.use(express.json()) //Sets req.body
 app.use(logger) //Custom Middleware
 app.use(express.static(staticFilePath))
-app.use('/api/genres', router)
-
-//handle Invalid paths
-app.get('*', (req, res) => {
-    res.status(400).send({
-        error: 'Invalid Request'
-    })
-})
+app.use('/api/genres', genreRouter)
+app.use('/api/customers', customerRouter)
+app.use('*', defaultRouter)
 
 const port = process.env.NODE_PORT || 3000
 app.listen(port, () => {
