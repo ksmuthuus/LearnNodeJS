@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const logger = require('./middlewares/logger')
 const genreRouter = require('./routes/genre')
 const customerRouter = require('./routes/customer')
+const movieRouter = require('./routes/movie')
 const defaultRouter = require('./routes/default')
 
 const app = express()
@@ -36,6 +37,7 @@ app.use(logger) //Custom Middleware
 app.use(express.static(staticFilePath))
 app.use('/api/genres', genreRouter)
 app.use('/api/customers', customerRouter)
+app.use('/api/movies', movieRouter)
 app.use('*', defaultRouter)
 
 const port = process.env.NODE_PORT || 3000
