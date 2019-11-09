@@ -8,6 +8,7 @@ const logger = require('./middlewares/logger')
 const genreRouter = require('./routes/genre')
 const customerRouter = require('./routes/customer')
 const movieRouter = require('./routes/movie')
+const rentalRouter = require('./routes/rental')
 const defaultRouter = require('./routes/default')
 
 const app = express()
@@ -38,6 +39,7 @@ app.use(express.static(staticFilePath))
 app.use('/api/genres', genreRouter)
 app.use('/api/customers', customerRouter)
 app.use('/api/movies', movieRouter)
+app.use('/api/rentals', rentalRouter)
 app.use('*', defaultRouter)
 
 const port = process.env.NODE_PORT || 3000

@@ -32,9 +32,9 @@ const movieSchema = new mongoose.Schema({
     }
 })
 
-exports.Movie = mongoose.model('Movie', movieSchema)
+const Movie = mongoose.model('Movie', movieSchema)
 
-exports.validate = (movie) => {
+const validate = (movie) => {
     const schema = {
         title: Joi.string().min(3).max(255).required(),
         genreId: Joi.string().required(),
@@ -42,4 +42,10 @@ exports.validate = (movie) => {
         dailyRentalRate: Joi.number()
     }
     return Joi.validate(movie, schema)
+}
+
+module.exports = {
+    movieSchema,
+    Movie,
+    validate
 }
