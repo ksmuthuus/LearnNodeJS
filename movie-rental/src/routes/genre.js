@@ -1,4 +1,6 @@
 const express = require('express')
+const auth = require('../middlewares/auth')
+const admin = require('../middlewares/admin')
 const {
     returnError
 } = require('../common/error')
@@ -38,7 +40,7 @@ router.get('/:id', async (req, res) => {
 })
 
 //POST Genres
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     //Validate payload
     const validated = validate(req.body)
     if (validated.error) {
@@ -86,7 +88,7 @@ router.put('/:id', async (req, res) => {
 })
 
 //DELETE Generes
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
     var resultGenre = undefined
     try {
         resultGenre = await Genre.findByIdAndRemove(req.params.id)

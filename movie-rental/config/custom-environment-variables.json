@@ -1,5 +1,6 @@
 {
     "webserver": {
-        "port": "NODe_PORT"
-    }
+        "port": "NODE_PORT"
+    },
+    "jwtPrivateKey": "movie-rental_jwtPrivateKey"
 }
