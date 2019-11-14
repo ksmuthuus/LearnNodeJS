@@ -1,4 +1,4 @@
-//require("express-async-errors");
+require("express-async-errors");
 const express = require("express");
 const path = require("path");
 const helmet = require("helmet");
@@ -13,10 +13,12 @@ const rentalRouter = require("./routes/rental");
 const userRouter = require("./routes/user");
 const authRouter = require("./routes/auth");
 const defaultRouter = require("./routes/default");
-// const error = require("./middlewares/error");
+const error = require("./middlewares/error");
+const winston = require("winston");
 
 const app = express();
 const staticFilePath = path.join(__dirname, "../public");
+winston.add(new winston.transports.File({ filename: "log.txt" }));
 
 // if (!config.get('jwtPrivateKey')) {
 //     console.log('FATAL ERROR: Missing JWT Private Key')
@@ -50,7 +52,7 @@ app.use("/api/rentals", rentalRouter);
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("*", defaultRouter);
-//app.use(error);
+app.use(error);
 
 const port = process.env.NODE_PORT || 3000;
 app.listen(port, () => {

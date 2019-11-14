@@ -1,4 +1,8 @@
-module.exports = function(ex, req, res, _next) {
+const winston = require("winston");
+module.exports = function(ex, req, res, next) {
   //Log the error
-  res.status(500).send("Internal Error");
+  winston.error(ex.message, ex);
+  res.status(500).send({
+    message: "Internal Error"
+  });
 };
