@@ -18,6 +18,12 @@ const winston = require("winston");
 require('winston-mongodb')
 const app = express();
 const staticFilePath = path.join(__dirname, "../public");
+
+//Uncaught exceptions
+process.on('uncaughtException', (ex) => {
+  winston.error(ex.message, ex)
+})
+
 winston.add(new winston.transports.File({
   filename: "log.txt"
 }));
@@ -27,6 +33,7 @@ winston.add(new winston.transports.MongoDB({
   level: 'error'
 }))
 
+throw new Error('Uncaught Ex!')
 // if (!config.get('jwtPrivateKey')) {
 //     console.log('FATAL ERROR: Missing JWT Private Key')
 //     process.exit(1)
