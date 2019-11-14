@@ -15,10 +15,17 @@ const authRouter = require("./routes/auth");
 const defaultRouter = require("./routes/default");
 const error = require("./middlewares/error");
 const winston = require("winston");
-
+require('winston-mongodb')
 const app = express();
 const staticFilePath = path.join(__dirname, "../public");
-winston.add(new winston.transports.File({ filename: "log.txt" }));
+winston.add(new winston.transports.File({
+  filename: "log.txt"
+}));
+
+winston.add(new winston.transports.MongoDB({
+  db: 'mongodb://localhost:27017/MovieRental',
+  level: 'error'
+}))
 
 // if (!config.get('jwtPrivateKey')) {
 //     console.log('FATAL ERROR: Missing JWT Private Key')
@@ -26,8 +33,7 @@ winston.add(new winston.transports.File({ filename: "log.txt" }));
 // }
 
 const url = "mongodb://localhost:27017/MovieRental";
-mongoose
-  .connect(url, {
+mongoose.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })

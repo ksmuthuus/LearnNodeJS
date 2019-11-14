@@ -3,15 +3,19 @@ const auth = require("../middlewares/auth");
 const admin = require("../middlewares/admin");
 //const asyncMiddleware = require('../middlewares/async')
 
-const { returnError } = require("../common/error");
-const { Genre, validate } = require("../models/genre");
+const {
+  returnError
+} = require("../common/error");
+const {
+  Genre,
+  validate
+} = require("../models/genre");
 
 const router = express.Router();
 
 //GET All Generas
 
 router.get("/", async (req, res, next) => {
-  throw new Error("Failed to fetch Genres!");
   const genres = await Genre.find().sort("name");
   res.status(200).send(genres);
 });
@@ -75,11 +79,9 @@ router.put("/:id", async (req, res) => {
   let resultGenre = undefined;
   try {
     resultGenre = await Genre.findByIdAndUpdate(
-      req.params.id,
-      {
+      req.params.id, {
         name: req.body.name
-      },
-      {
+      }, {
         new: true
       }
     );
