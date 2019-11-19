@@ -1,0 +1,3 @@
+{"name":"MongoTimeoutError","reason":{"name":"MongoNetworkError","errorLabels":["TransientTransactionError"]},"level":"error","message":"Server selection timed out after 30000 msServer selection timed out after 30000 ms","stack":"MongoTimeoutError: Server selection timed out after 30000 ms\n    at Timeout.<anonymous> (C:\\Dev\\proj-nodejs\\movie-rental\\node_modules\\mongodb\\lib\\core\\sdam\\topology.js:878:9)\n    at listOnTimeout (internal/timers.js:531:17)\n    at processTimers (internal/timers.js:475:7)"}
+{"message":"MongoDB Connection Succeeded!","level":"info"}
+{"message":"MongoDB Connection Succeeded!","level":"info"}

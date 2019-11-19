@@ -1,7 +1,7 @@
 {
     "name": "Default Configuration",
     "webserver": {
-
+        "port": 3000
     },
-    "jwtPrivateKey": ""
+    "jwtPrivateKey": "MyPrivateKey"
 }
