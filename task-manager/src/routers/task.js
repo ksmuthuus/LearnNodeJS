@@ -17,4 +17,23 @@ router.post('/', async (req, res) => {
     res.status(201).send(addedTask)
 })
 
+router.patch('/:id', async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedupdates = ['description', 'completed']
+    const isValidOperation = updates.every((update) => allowedupdates.includes(update))
+    if (!isValidOperation)
+        return res.status(400).send({
+            error: 'Invlaid updates!'
+        })
+    const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
+        new: true
+    })
+
+    if (!task) {
+        return res.status(404).send('Not Found')
+    }
+
+    res.status(200).send(task)
+})
+
 module.exports = router
