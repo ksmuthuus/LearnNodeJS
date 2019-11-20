@@ -1,4 +1,3 @@
-require("express-async-errors");
 const winston = require('winston')
 
 //Uncaught exceptions from sync context

@@ -15,22 +15,16 @@ const router = express.Router();
 
 //GET All Generas
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
   const genres = await Genre.find().sort("name");
   res.status(200).send(genres);
 });
 
 //GET specific Generas
 router.get("/:id", async (req, res) => {
-  let genre = undefined;
-  try {
-    genre = await Genre.findById(req.params.id);
-  } catch (err) {
-    returnError(res, 400, "StorageException", err.message);
-  }
-
+  const genre = await Genre.findById(req.params.id);
   if (!genre) {
-    returnError(res, 400, "DataException", "Genre Not Available");
+    throw new Error('Genre Not Found')
   }
   res.status(200).send(genre);
 });
@@ -39,28 +33,17 @@ router.get("/:id", async (req, res) => {
 router.post("/", auth, async (req, res) => {
   //Validate payload
   const validated = validate(req.body);
-  if (validated.error) {
-    returnError(
-      res,
-      400,
-      "ValidationException",
-      validated.error.details[0].message
-    ); //TO DO enumerate details
-  }
+  if (validated.error)
+    throw new Error(validated.error)
+
 
   //Insert Genre
   const genre = new Genre({
     name: req.body.name
   });
 
-  let addedGenre = undefined;
-  try {
-    addedGenre = await genre.save();
-  } catch (err) {
-    returnError(res, 400, "StorageException", err.message);
-  }
-
-  res.status(201).send(addedGenre);
+  await genre.save();
+  res.status(201).send(genre);
 });
 
 //PUT Genres
@@ -68,26 +51,17 @@ router.put("/:id", async (req, res) => {
   //Validate payload
   const validated = validate(req.body);
   if (validated.error) {
-    returnError(
-      res,
-      400,
-      "ValidationException",
-      validated.error.details[0].message
-    ); //TO DO enumerate details
+    throw new Error(validated.error)
   }
 
-  let resultGenre = undefined;
-  try {
-    resultGenre = await Genre.findByIdAndUpdate(
-      req.params.id, {
-        name: req.body.name
-      }, {
-        new: true
-      }
-    );
-  } catch (err) {
-    returnError(res, 400, "StorageException", err.message);
-  }
+  const resultGenre = await Genre.findByIdAndUpdate(
+    req.params.id, {
+      name: req.body.name
+    }, {
+      new: true
+    }
+  );
+
   if (!resultGenre) returnError(res, 404, "DataException", "Genre Not Found");
 
   //Update Genre

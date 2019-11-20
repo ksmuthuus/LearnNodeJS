@@ -3,5 +3,5 @@
     "webserver": {
         "port": 3000
     },
-    "jwtPrivateKey": "MyPrivateKey"
+    "jwtPrivateKey": "MyPrivateKey1"
 }
