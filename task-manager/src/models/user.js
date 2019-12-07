@@ -45,6 +45,12 @@ const userSchema = mongoose.Schema({
     }]
 })
 
+userSchema.virtual('tasks',{
+    ref: 'Task',
+    localField:'_id',
+    foreignField:'owner'
+})
+
 //Pre Save Middleware
 userSchema.pre('save', async function(next) {
     const user = this
