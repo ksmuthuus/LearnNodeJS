@@ -7,9 +7,9 @@
 <body>
   <h1>Today is <%= today %></h1>
   <ul>
-    <% for(int i=0;i<listItems.length;i++){ %>
-      <li> <%=listItems[i]%> </li>
-    <%}%>
+   <% listItems.forEach(function(item){ %>
+    <li> <%= item %></li>
+   <% }) %>
   </ul>
   <form class='' action='/' method='post'>
     <input type='text' name='newItem'/>
