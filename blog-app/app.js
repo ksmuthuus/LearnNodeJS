@@ -7,6 +7,7 @@ const ejs = require("ejs");
 const homeRouter = require('./routes/home')
 const aboutRouter = require('./routes/about')
 const contactRouter = require('./routes/contact')
+const composeRouter = require('./routes/compose')
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.static("public"));
 app.use('/', homeRouter)
 app.use('/about', aboutRouter)
 app.use('/contact', contactRouter)
+app.use('/compose', composeRouter)
 
 
 

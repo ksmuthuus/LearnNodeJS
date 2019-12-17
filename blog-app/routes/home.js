@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 
-const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
+const homeStartingContent = "இரண்டாயிரத்து ஐந்நூறு ஆண்டுகளுக்கும் மேல் பழமை வாய்ந்த இலக்கிய மரபைக் கொண்டுள்ள தமிழ் மொழி, தற்போது வழக்கில் இருக்கும் ஒரு சில செம்மொழிகளில் ஒன்றாகும்.  தமிழ், இந்தியாவில் பேசப்படும் மொழிகளில் மிக நீண்ட இலக்கிய, இலக்கண மரபுகளைக் கொண்டது. தமிழ் இலக்கியங்களில் சில 2500 ஆண்டுகளுக்கு மேல் பழமையானவை";
 
 
 router.get('/', function(req, res){
