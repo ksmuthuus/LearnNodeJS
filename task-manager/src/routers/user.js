@@ -2,11 +2,10 @@ const express = require('express')
 const multer = require('multer')
 const router = express.Router()
 const User = require('../models/user')
-const returnError = require('../common/error')
 const auth = require('../middleware/auth')
 
 const avatar = multer({
-dest:'avatars',
+// dest:'avatars',
 limits:{
     fileSize:1000000
 },
@@ -18,10 +17,34 @@ fileFilter(req, file, cb){
 }
 })
 
-router.post('/me/avatar',avatar.single('avatar'),(req, res) => {
+
+router.post('/me/avatar', auth, avatar.single('avatar'), async (req, res) => {
+    const buffer = await sharp(req.file.buffer).resize(250,250).png().toBuffer()
+    req.user.avatar = buffer
+    await req.user.save()
     res.send()
 }, (err, req, res, next) => {
     res.status(400).send({error: err.message})
+})
+
+router.delete('/me/avatar', auth, async(req, res) => {
+    req.user.avatar = undefined
+    await req.user.save()
+    res.send()
+})
+
+router.get('/:id/avatar', async (req, res) => {
+    try{
+        const user = await User.findById(req.params.id)
+        if(!user || !user.avatar){
+            throw new Error('User Not Found!')
+        }
+        res.set('Content-Type','image/png')
+        res.send(user.avatar)
+    }
+    catch(err){
+        res.status(400).send(err.message)
+    }
 })
 
 router.get('/me', auth, async (req, res) => {
@@ -29,6 +52,33 @@ router.get('/me', auth, async (req, res) => {
     
 })
 
+ /**
+   * @swagger
+   * /api/users/login:
+   *   post:
+   *     description: Login to the application
+   *     tags: [Users, Login]
+   *     consumes:
+   *       - "application/json"
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: username
+   *         description: User name.
+   *         in: formData
+   *         required: true
+   *         type: string
+   *       - name: password
+   *         description: User's password.
+   *         in: formData
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: login
+   *         schema:
+   *           type: object
+   */
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
