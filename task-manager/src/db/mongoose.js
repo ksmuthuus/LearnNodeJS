@@ -5,4 +5,6 @@ mongoose.connect(connUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false
+}).catch(err => {
+    console.log('Failed to connect mongodb: ', err)
 })
