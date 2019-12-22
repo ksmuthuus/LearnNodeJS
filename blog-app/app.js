@@ -7,21 +7,25 @@ const ejs = require("ejs");
 const homeRouter = require('./routes/home')
 const aboutRouter = require('./routes/about')
 const contactRouter = require('./routes/contact')
-const composeRouter = require('./routes/compose')
+const postRouter = require('./routes/post')
+const compose = require('./routes/compose')
 
 const app = express();
 
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(express.static("public"));
 app.use('/', homeRouter)
 app.use('/about', aboutRouter)
 app.use('/contact', contactRouter)
-app.use('/compose', composeRouter)
+app.use('/compose', compose.router)
+app.use('/post', postRouter)
 
 
 
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log("Server started on port 3000");
 });

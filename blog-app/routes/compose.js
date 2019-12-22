@@ -4,18 +4,20 @@ const router = express.Router();
 
 const blogPosts = []
 
-router.get('/', function(req, res){
-res.render('compose')
+router.get('/', function (req, res) {
+  res.render('compose')
 });
 
-router.post('/', function(req, res){
+router.post('/', function (req, res) {
   const blogPost = {
-    title:req.body.postTitle,
-    body:req.body.postBody
+    title: req.body.postTitle,
+    body: req.body.postBody
   }
-
   blogPosts.push(blogPost)
   res.redirect('/')
 })
 
-module.exports = router
+module.exports = {
+  router,
+  blogPosts
+}
