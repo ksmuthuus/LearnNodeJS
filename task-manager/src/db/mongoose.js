@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
-const connUrl = 'mongodb://localhost:27017/TaskManager'
-
+const connUrl = process.env.MONGODB_URL
 mongoose.connect(connUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useUnifiedTopology: true
 }).catch(err => {
     console.log('Failed to connect mongodb: ', err)
 })

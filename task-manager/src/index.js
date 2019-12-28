@@ -1,24 +1,20 @@
-const express = require('express')
-require('./db/mongoose')
-const userRouter = require('./routers/user')
-const taskRouter = require('./routers/task')
-const apidocRouter = require('./routers/apidoc')
+const express = require("express");
+require("./db/mongoose");
+const userRouter = require("./routers/user");
+const taskRouter = require("./routers/task");
+const apidocRouter = require("./routers/apidoc");
 
+const app = express();
+const port = process.env.PORT;
 
-
-const app = express()
-const port = process.env.PORT || 3001
-
-app.use(express.json())
-app.use('/api/users', userRouter)
-app.use('/api/tasks', taskRouter)
-app.use('/apidoc',apidocRouter)
-
+app.use(express.json());
+app.use("/api/users", userRouter);
+app.use("/api/tasks", taskRouter);
+app.use("/apidoc", apidocRouter);
 
 app.listen(port, () => {
-    console.log('Server is up on port ' + port)
-})
-
+  console.log("Server is up on port " + port);
+});
 
 // const Task = require('./models/task')
 // const User = require('./models/user')

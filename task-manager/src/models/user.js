@@ -17,7 +17,9 @@ const userSchema = mongoose.Schema({
         lowercase: true,
         required: true,
         trim: true,
-        index: {unique:true},
+        index: {
+            unique: true
+        },
         // validate(value): {
         //     if (!validator.isEmail(value)) {
         //         throw new Error('Email is invalid!')
@@ -44,46 +46,47 @@ const userSchema = mongoose.Schema({
             required: true
         }
     }],
-    avatar:{
+    avatar: {
         type: Buffer
     }
-    
+
 }, {
     timestamps: true
 })
 
-userSchema.virtual('tasks',{
+userSchema.virtual('tasks', {
     ref: 'Task',
-    localField:'_id',
-    foreignField:'owner'
+    localField: '_id',
+    foreignField: 'owner'
 })
 
 //Pre Save Middleware
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
     const user = this
 
     if (user.isModified('password')) {
         user.password = await bcryptjs.hash(user.password, 8)
-        user.tokens=[]
+        user.tokens = []
     }
 
     next()
 })
 
 //Delete user's tasks before deleting user
-userSchema.pre('remove', async function(next){
+userSchema.pre('remove', async function (next) {
     const user = this
-    try{
-        await Task.deleteMany({owner:user._id})
+    try {
+        await Task.deleteMany({
+            owner: user._id
+        })
         next()
-    }
-    catch(err){
+    } catch (err) {
         throw new Error(err.message)
     }
-    
+
 })
 
-userSchema.methods.toJSON = function(){
+userSchema.methods.toJSON = function () {
     const user = this.toObject()
     delete user.password
     delete user.tokens
@@ -92,22 +95,28 @@ userSchema.methods.toJSON = function(){
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'thisismynewcourse')
+    const token = jwt.sign({
+        _id: user._id.toString()
+    }, process.env.JWT_SECRET_KEY)
 
-    user.tokens = user.tokens.concat({ token })
+    user.tokens = user.tokens.concat({
+        token
+    })
     await user.save()
 
     return token
 }
 
 userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({ email })
+    const user = await User.findOne({
+        email
+    })
     if (!user) {
         throw new Error('Unable to login')
     }
 
     const isMatch = await bcryptjs.compare(password, user.password)
-    console.log('Match: ',isMatch)
+    console.log('Match: ', isMatch)
     if (!isMatch) {
         throw new Error('Unable to login')
     }
