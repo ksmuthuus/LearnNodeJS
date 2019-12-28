@@ -1,4 +1,4 @@
-const ex = require('../exercise1')
+const ex = require('../fizzbuzz')
 
 describe('fizzBuzz', () => {
   it('should throw if input is not a number', () => {
