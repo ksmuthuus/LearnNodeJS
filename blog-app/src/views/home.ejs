@@ -3,7 +3,7 @@
 <P><%=homeStartingContent %></P>
 <% blogPosts.forEach(post => { %>
 <h1><%= post.title %> </h1>
-<p><%= post.body.substring(0,100)+'...' %></p>
+<p><%= post.content.substring(0,100)+'...' %></p>
 <a href="/post/<%=post.title%>">Read More</a>
 <% }) %>
 <%- include('partials/footer'); -%>

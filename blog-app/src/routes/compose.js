@@ -1,5 +1,5 @@
 const express = require("express");
-
+const Post = require('../models/post')
 const router = express.Router();
 
 const blogPosts = []
@@ -8,12 +8,14 @@ router.get('/', function (req, res) {
   res.render('compose')
 });
 
-router.post('/', function (req, res) {
+router.post('/', async function (req, res) {
   const blogPost = {
     title: req.body.postTitle,
-    body: req.body.postBody
+    content: req.body.postBody
   }
-  blogPosts.push(blogPost)
+  //blogPosts.push(blogPost)
+  const post = new Post(blogPost)
+  await post.save()
   res.redirect('/')
 })
 
