@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "env-cmd -f ./config/dev.env nodemon src/index.js",
+    "test": "env-cmd -f ./config/test.env jest --watch",
     "cloud": "env-cmd -f ./config/cloud.env nodemon src/index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +29,8 @@
     "validator": "^12.0.0"
   },
   "devDependencies": {
-    "env-cmd": "^10.0.1"
+    "env-cmd": "^10.0.1",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2"
   }
 }
