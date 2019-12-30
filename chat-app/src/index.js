@@ -10,8 +10,23 @@ const io = socketio(server)
 const publicDirPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirPath))
 
-io.on('connection', () => {
+let count = 0
+io.on('connection', (socket) => {
   console.log('New WS connection!')
+
+  socket.emit('message', 'Welcome to live Chat..You are now connected..')
+
+  socket.on('sendMessage', (message) => {
+    //console.log(message)
+    io.emit('message', message)
+  })
+
+  // socket.emit('countUpdated', count)
+
+  // socket.on('incremented', () => {
+  //   count++
+  //   io.emit('countUpdated', count)
+  // })
 })
 
 const port = process.env.NODE_PORT || 3000
