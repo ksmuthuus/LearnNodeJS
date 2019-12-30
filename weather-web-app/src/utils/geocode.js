@@ -1,7 +1,10 @@
 const request = require('request')
 
-const accessToken = ''
+const accessToken = process.env.WEATHER_MAPBOX_KEY
 const geocode = (address, callback) => {
+    if (!accessToken)
+        callback('Unable to get geoCode', undefined)
+
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?limit=1&access_token=${accessToken}`
     request({
         uri: url,

@@ -1,7 +1,10 @@
 const request = require('request')
 
-const accessToken = ''
+const accessToken = process.env.WEATHER_DARKSKY_KEY
 const weather = (lat, lang, callback) => {
+    if (!accessToken)
+        callback('Unable to get weather', undefined)
+
     const url = `https://api.darksky.net/forecast/${accessToken}/${lat},${lang}`
     request({
         uri: url,
