@@ -46,16 +46,33 @@ app.get('/weather', (req, res) => {
     const address = req.query.address
 
     if (!address) {
-        return res.send({ error: 'ValidationError', message: 'Address is required' })
+        return res.send({
+            error: 'ValidationError',
+            message: 'Address is required'
+        })
     }
 
-    geocode(address, (error, { lat, lang, place } = {}) => {
+    geocode(address, (error, {
+        lat,
+        lang,
+        place
+    } = {}) => {
         if (error) {
-            return res.send({ error: 'OperationalError', message: error })
+            return res.send({
+                error: 'OperationalError',
+                message: error
+            })
         }
-        weather(lat, lang, (error, { summary, temp, rain }) => {
+        weather(lat, lang, (error, {
+            summary,
+            temp,
+            rain
+        }) => {
             if (error) {
-                res.send({ error: 'OperationalError', message: error })
+                res.send({
+                    error: 'OperationalError',
+                    message: error
+                })
             }
             res.send({
                 location: place,
@@ -82,6 +99,7 @@ app.get('*', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-    console.log('Listening on port 3000')
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+    console.log('Listening on port ', port)
 })

@@ -1,6 +1,6 @@
 console.log('Client Side Java Script Loaded!!')
 
-const url = 'http://localhost:3000/weather?address='
+const url = '/weather?address='
 
 const formElement = document.querySelector('form')
 const locationElement = document.querySelector('input')
@@ -12,14 +12,13 @@ formElement.addEventListener('submit', (e) => {
     const location = locationElement.value
 
     message1Element.textContent = "Fetching weather....Please wait..."
-    message2Element.textContent = ''   //Clear existing value, if any
+    message2Element.textContent = '' //Clear existing value, if any
 
     fetch(url + location).then((response) => {
         response.json().then((data) => {
             if (data.error) {
                 message1Element.textContent = data.message
-            }
-            else {
+            } else {
                 message1Element.textContent = data.location
                 message2Element.textContent = data.message
             }
