@@ -1,14 +1,26 @@
-const winston = require("winston");
-require('winston-mongodb')
-const morgan = require("morgan");
+const winston = require('winston');
+//require('winston-mongodb');
+require('express-async-errors');
 
-//if (app.get("env") !== "production") app.use(morgan("tiny"));
+module.exports = function () {
+  winston.handleExceptions(
+    new winston.transports.Console({
+      colorize: true,
+      prettyPrint: true
+    }),
+    new winston.transports.File({
+      filename: 'uncaughtExceptions.log'
+    }));
 
-winston.add(new winston.transports.File({
-  filename: "log.txt"
-}));
+  process.on('unhandledRejection', (ex) => {
+    throw ex;
+  });
 
-winston.add(new winston.transports.MongoDB({
-  db: 'mongodb://localhost:27017/MovieRental',
-  level: 'error'
-}))
+  winston.add(winston.transports.File, {
+    filename: 'logfile.log'
+  });
+  winston.add(winston.transports.MongoDB, {
+    db: 'mongodb://localhost/vidly',
+    level: 'info'
+  });
+}
