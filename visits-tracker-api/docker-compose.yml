@@ -5,4 +5,4 @@ services:
   node-app:
     build: .
     ports: 
-      - "4040:8080"
+      - "80:3000"
