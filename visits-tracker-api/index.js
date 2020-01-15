@@ -8,9 +8,9 @@ const client = redis.createClient({
 })
 client.set('visit',0)
 
-app.get('/visits',(req, res) => {
+app.get('/',(req, res) => {
   client.get('visit',(err, visits) => {
-    res.send('Numner of visits: ', visits)
+    res.status(200).send('Number of visits: ', visits)
     client.set('visit',parseInt(visits)+1)
   })
 })
