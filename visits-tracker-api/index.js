@@ -10,7 +10,13 @@ client.set('visit',0)
 
 app.get('/',(req, res) => {
   client.get('visit',(err, visits) => {
-    res.status(200).send('Number of visits: ', visits)
+    if(err){
+      res.status(500).send(err.message)
+    }
+    else{
+      res.status(200).send('Number of visits: '+visits)
+    }
+    
     client.set('visit',parseInt(visits)+1)
   })
 })
