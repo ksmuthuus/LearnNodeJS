@@ -1,0 +1,14 @@
+[
+  {
+    "participants": ["Student", "Muthu"],
+    "id": "1"
+  },
+  {
+    "participants": ["Student", "Raju"],
+    "id": "2"
+  },
+  {
+    "participants": ["Student", "Subbu"],
+    "id": "3"
+  }
+]

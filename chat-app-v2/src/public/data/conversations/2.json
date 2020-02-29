@@ -1,0 +1,16 @@
+{
+  "id": "2",
+  "participants": ["Student", "Raju"],
+  "messages": [
+    {
+      "sender": "Raju",
+      "time": 1512246342159,
+      "message": "This is Raju. I'm also sending you a message."
+    },
+    {
+      "sender": "Student",
+      "time": 1582995258410,
+      "message": "This is Ravi. I've a query."
+    }
+  ]
+}
